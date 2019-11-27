@@ -31,14 +31,15 @@ dt_summary2[count == 2, -c("count_n", "count")][order(-quota)]
 ## Visualization ####
 
 dt_summary2[count == 2] %>% 
-  ggplot(aes(x=journey, y = quota, fill = journey, label = paste0(100 *round(quota, 2), "%"))) +
+  ggplot(aes(x=reorder(journey, quota), y = quota, fill = journey, label = paste0(100 *round(quota, 2), "%"))) +
   geom_col() +
   geom_text(hjust = 0) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
   scale_fill_viridis_d() +
   theme(legend.position = "none") + 
-  coord_flip()
+  coord_flip() +
+  labs(title = "Customer journey analysis")
 
-
+ggsave(here::here("output", paste0(Sys.Date(), "_cust_journey.png")))
 
 
