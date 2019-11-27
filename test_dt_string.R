@@ -8,6 +8,8 @@ library(ggplot2)
 library(dplyr)
 library(scales)
 
+theme_set(theme_light())
+
 ## Test data ####
 
 dt <- data.table(options = LETTERS[sample(1:2, 200, replace=T)],
@@ -31,14 +33,20 @@ dt_summary2[count == 2, -c("count_n", "count")][order(-quota)]
 ## Visualization ####
 
 dt_summary2[count == 2] %>% 
-  ggplot(aes(x=reorder(journey, quota), y = quota, fill = journey, label = paste0(100 *round(quota, 2), "%"))) +
+  ggplot(aes(x=reorder(journey, quota), 
+             y = quota, 
+             fill = journey, 
+             label = paste0(100 *round(quota, 2), "%"))) +
   geom_col() +
-  geom_text(hjust = 0) +
+  geom_text(hjust = 1, color = "black", size = 3.5) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1)) +
-  scale_fill_viridis_d() +
+  scale_fill_viridis_d(option = "E") +
   theme(legend.position = "none") + 
   coord_flip() +
-  labs(title = "Customer journey analysis")
+  labs(title = "Customer journey analysis", 
+       subtitle = "Most common journeys for 2 steps",
+       x = "", 
+       y = "")
 
 ggsave(here::here("output", paste0(Sys.Date(), "_cust_journey.png")))
 
