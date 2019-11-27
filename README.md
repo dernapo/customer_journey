@@ -8,3 +8,5 @@ Some examples of customer jouneys:
    - BA
    - BBB
    - BAB
+   
+![Image description](https://github.com/dernapo/customer_journey/blob/master/output/2019-11-27_cust_journey.png)
