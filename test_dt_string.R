@@ -14,7 +14,7 @@ theme_set(theme_light())
 
 dt <- data.table(options = LETTERS[sample(1:2, 200, replace=T)],
                  b=letters[1:5],
-                 ID=sample(1:300, 200, replace=T))
+                 ID=sample(1:100, 200, replace=T))
 
 
 ## Evaluation ####
@@ -27,12 +27,14 @@ dt_summary2 <- dt_summary[, .(count_n = .N), .(journey, count)][, quota := count
 
 ## Display result ####
 
-dt_summary2[count == 2, -c("count_n", "count")][order(-quota)]
+n_loops <- 3
+
+dt_summary2[count == n_loops, -c("count_n", "count")][order(-quota)]
 
 
 ## Visualization ####
 
-dt_summary2[count == 2] %>% 
+dt_summary2[count == n_loops] %>% 
   ggplot(aes(x=reorder(journey, quota), 
              y = quota, 
              fill = journey, 
@@ -44,7 +46,7 @@ dt_summary2[count == 2] %>%
   theme(legend.position = "none") + 
   coord_flip() +
   labs(title = "Customer journey analysis", 
-       subtitle = "Most common journeys for 2 steps",
+       subtitle = paste0("Most common journeys for ", n_loops, " loops and 2 options (A or B)"),
        x = "", 
        y = "")
 
